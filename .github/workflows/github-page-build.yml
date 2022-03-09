@@ -1,0 +1,60 @@
+name: "Github pages build"
+
+on:
+  push:
+    branches: [master] 
+  pull_request:
+    branches: [master] 
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+        with:
+          fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
+
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+          architecture: x64
+
+      - name: Install xvbf
+        run: |
+          sudo apt install xvfb
+
+      - name: Install drawio-desktop
+        run: |
+          wget https://github.com/jgraph/drawio-desktop/releases/download/v15.4.0/drawio-amd64-15.4.0.deb
+          sudo dpkg --force-depends -i ./drawio-amd64-15.4.0.deb
+
+      - name: generate pages
+        run: |
+          bash_script/doc_build.sh
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          echo running on branch ${GITHUB_REF##*/}
+
+       # Deploy to github pages if it's a push on master 
+      - name: Deploy to github pages
+        if: github.ref == 'refs/heads/master'
+        # if: ${{ env.GITHUB_REF == 'refs/heads/master'}}
+        uses: s0/git-publish-subdir-action@master
+        env:
+          REPO: self
+          BRANCH: gh-pages
+          FOLDER: docs
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SQUASH_HISTORY: true
+          SKIP_EMPTY_COMMITS: true
+          MESSAGE: "Build from {sha}: {msg}"
+
+      # - name: Upload as artefact
+      #   if: ${{ env.GITHUB_REF != 'refs/heads/master'}}
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     path: docs
