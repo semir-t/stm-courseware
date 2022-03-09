@@ -1,0 +1,11 @@
+.wy-table-responsive table td {
+    white-space: normal;
+}
+
+.wy-nav-content {
+    max-width: 1200px;
+}
+
+.center {text-align: center;}
+
+.right {text-align: right;}
