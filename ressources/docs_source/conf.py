@@ -17,7 +17,7 @@ sys.path.insert(0, os.path.abspath('.'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'New project'
+project = 'STM32 Learning Material'
 copyright = 'semir-t'
 author = 'semir-t'
 
