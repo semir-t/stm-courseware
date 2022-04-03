@@ -9,6 +9,10 @@
 .section .text.main
 
 main:
+	mov R0,#0
+	mov R1,#1
+	cmp R0,R1
+
 	ITTE   NE            /*Next 3 instructions are conditional */
 	andne  R0, R0, R1    /*ANDNE does not update condition flags*/
 	addsne R2, R2, #1    /*ADDSNE updates condition flags*/

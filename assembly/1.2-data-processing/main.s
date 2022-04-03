@@ -40,6 +40,8 @@ o_sub:
 	mvn r1,#16
 	mov r3,#0
 	mov r2,r0
+	sub r4,r0,r2
+	subs r5,r0,r2
 	sub r2,r2,r1
 	subs r2,r1
 	sbc r2,r1
