@@ -22,6 +22,7 @@ main:
 	addgt  R1, R0, #55   /*Conditional addition in case the GT is true*/
 	addle  R1, R0, #48   /*Conditional addition in case the GT is not true*/
 
+
 	ITTEE  EQ            /*Next 4 instructions are conditional*/
 	moveq  R0, R1        /*Conditional MOV*/
 	addeq  R2, R2, #10   /*Conditional ADD*/

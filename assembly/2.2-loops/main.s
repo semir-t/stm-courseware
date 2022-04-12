@@ -17,6 +17,8 @@ main:
 		y = y + x;
 	}
 */
+	mov r0,#0
+	mov r1,#0
 	mov r2,#0
 	mov r3,#10
 for:

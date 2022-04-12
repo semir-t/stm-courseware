@@ -66,3 +66,52 @@ Every pin has addiotinal alternative functions that it can performe. This inform
 
 
 For example, to configure pin **PA2**  as an USART2-TX we will select alternative function 7. For the same pin, if we want to use it as an TIM2-CH3 we need to select alternative function 1. 
+
+Example
+*******
+Following examples are based on the STM32 HAL API.
+
+Configuring pin as output
+--------------------------
+
+.. code-block:: c
+
+    HAL_RCC_GPIOD_CLK_ENABLE();
+    
+    GPIO_InitTypeDef GPIO_InitStruct;
+    GPIO_InitStruct.Pin = GPIO_PIN_12|GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
+    
+    HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+To initialize GPIO peripheral, we need to do following:
+    * Enable Clock for GPIO peripheral
+    * Configure the GPIO through the instance of the GPIO_InitTypeDef struct
+    * Initialize and configure the GPIO by calling the *HAL_GIO_Init()* function 
+    
+To initialize the GPIO pin(s) as output, we need to configure following variables of the struct mentioned above.
+        * Pin - By writing data to this variable we select the pin(s) that we want to configure
+        * Mode - This variable is used to configure the mode of the pin. Possible values are: (GPIO_MODE_OUTPUT_PP, GPIO_MODE_OUTPUT_OD,GPIO_MODE_INPUT,GPIO_MODE_AF_PP,GPIO_MODE_AF_OD. etc...). 
+        * Pull - We specify if we want to enable Pull-Up or Pull-Down resistors.
+        * Speed - We specify the GPIO pin speed.
+        
+After we have desired configuration stored in the instance of the PGIO_InitTypeDef struct, we call the **HAL_GPIO_Init(GPIOD, &GPIO_InitStruct)**. This function will initilize desired pins and configure them per the passed struct. First argument of this function is the GPIO port that we want to initialize, and the second argument is the configuration that we want to set to the desired GPIO port.
+
+Because this examples are written for the STM32F407 Discovery board, we have selected pind PD12,PD13,PD14,PD15 because this pins have LEDs connected to them.
+
+Configuring pin as input
+------------------------
+To configure pin as input, we just need to change the Mode variable from the previous code to GPIO_MODE_INPUT.
+
+.. code-block:: c
+
+    HAL_RCC_GPIOA_CLK_ENABLE();
+    
+    GPIO_InitTypeDef GPIO_InitStruct;
+    GPIO_InitStruct.Pin = GPIO_PIN_0;
+    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);

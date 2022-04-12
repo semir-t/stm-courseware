@@ -13,21 +13,33 @@ var2:	.word 0x04
 .text
 
 main:
+
 	bl basic
 	bl im_off
 	bl reg_off
 	bl scale_off
-
     b loop
 
 basic:
-	ldr r0, =var1
+	mov r0,#0
+	mov r1,#0
+	mov r2,#0
+	mov r3,#0
+	mov r4,#0
+	ldr r3, =var1
 	ldr r0, adr_var1  @ load the memory address of var1 via label adr_var1 into R0
     ldr r1, adr_var2  @ load the memory address of var2 via label adr_var2 into R1
+    ldr r2, [r1]
     ldr r2, [r0]      @ load the value (0x03) at memory address found in R0 to register R2
     str r2, [r1]      @ store the value found in R2 (0x03) to the memory address found in R1
+    ldr r4, [r1]
     bx r14
 im_off:
+	mov r0,#0
+	mov r1,#0
+	mov r2,#0
+	mov r3,#0
+	mov r4,#0
     ldr r0, adr_var1  @ load the memory address of var1 via label adr_var1 into R0
     ldr r1, adr_var2  @ load the memory address of var2 via label adr_var2 into R1
     ldr r2, [r0]      @ load the value (0x03) at memory address found in R0 to register R2
@@ -36,21 +48,33 @@ im_off:
     ldr r3, [r1], #4  @ address mode: post-indexed. Load the value at memory address found in R1 to register R3. Base register (R1) modified: R1 = R1+4
 	bx r14
 reg_off:
+	mov r0,#0
+	mov r1,#0
+	mov r2,#0
+	mov r3,#0
+	mov r4,#0
 	ldr r0, adr_var1  @ load the memory address of var1 via label adr_var1 to R0
     ldr r1, adr_var2  @ load the memory address of var2 via label adr_var2 to R1
     ldr r2, [r0]      @ load the value (0x03) at memory address found in R0 to R2
     str r2, [r1, r2]  @ address mode: offset. Store the value found in R2 (0x03) to the memory address found in R1 with the offset R2 (0x03). Base register unmodified.
+    ldr r3, [r1, r2]
     @str r2, [r1, r2]! @ address mode: pre-indexed. Store value found in R2 (0x03) to the memory address found in R1 with the offset R2 (0x03). Base register modified: R1 = R1+R2.
     @ldr r3, [r1], r2  @ address mode: post-indexed. Load value at memory address found in R1 to register R3. Then modify base register: R1 = R1+R2.
    	bx r14
 
 scale_off:
+	mov r0,#0
+	mov r1,#0
+	mov r2,#0
+	mov r3,#0
+	mov r4,#0
 	ldr r0, adr_var1         @ load the memory address of var1 via label adr_var1 to R0
     ldr r1, adr_var2         @ load the memory address of var2 via label adr_var2 to R1
     ldr r2, [r0]             @ load the value (0x03) at memory address found in R0 to R2
-    str r2, [r1, r2, LSL#2]  @ address mode: offset. Store the value found in R2 (0x03) to the memory address found in R1 with the offset R2 left-shifted by 2. Base register (R1) unmodified.
+    str r2, [r1, r2, LSL#2]
+    ldr r3, [r1,r2,LSL#2]  @ address mode: offset. Store the value found in R2 (0x03) to the memory address found in R1 with the offset R2 left-shifted by 2. Base register (R1) unmodified.
     @str r2, [r1, r2, LSL#2]! @ address mode: pre-indexed. Store the value found in R2 (0x03) to the memory address found in R1 with the offset R2 left-shifted by 2. Base register modified: R1 = R1 + R2<<2
-   @ ldr r3, [r1], r2, LSL#2  @ address mode: post-indexed. Load value at memory address found in R1 to the register R3. Then modifiy base register: R1 = R1 + R2<<2
+    @ldr r3, [r1], r2, LSL#2  @ address mode: post-indexed. Load value at memory address found in R1 to the register R3. Then modifiy base register: R1 = R1 + R2<<2
 	bx r14
 loop:
 	ldr r1,[r0]
