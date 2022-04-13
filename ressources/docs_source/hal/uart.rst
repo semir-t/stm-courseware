@@ -78,3 +78,99 @@ To signal the end of the data packet, the sending UART drives the data transmiss
 
 Example
 *******
+
+Initializing UART
+-----------------
+To initialize UART we need to follow bellow steps:
+    * Enable clock for dedicated GPIO 
+    * Configure GPIO pin(s) as an Alternative function
+    * Enable clock for UART
+    * Using the UART Init Struct configure the UART
+    * Enable the UART with desired configuration
+
+Following code will initialize pin PA2 and PA3 as an alternative function pin. After we have set the mode of the pin to alternative function, we need to then configure desired alternative function. Each pin can have up to 15 alternative functions, and information about alternative funcions for each pin can be found in the datasheet.
+
+In our case, we want this pin to perform UART funciontionality. From the bellow image we can see that for the pin PA2 we need to select alternative function 7 for this pin to perfome UART functionality.
+
+.. image:: images/hal-uart-af.png
+
+.. code-block:: c
+
+	GPIO_InitTypeDef GPIO_InitStruct;
+	__HAL_RCC_GPIOA_CLK_ENABLE();
+	GPIO_InitStruct.Pin = GPIO_PIN_2;
+	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+	GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
+	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+    
+    GPIO_InitStruct.Pin = GPIO_PIN_3;
+	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+	GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
+	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+    
+Next step is to configure UART peripheral. Following configuration is implemented in the bellow code
+    * Desired baudrate passed as an argument to a function call
+    * 8-bit data frame
+    * 1 stop bit
+    * No parity bits.
+
+.. code-block:: c
+
+	UART_InitTypeDef UART_InitStruct;
+	__HAL_RCC_USART2_CLK_ENABLE();
+	UART_InitStruct.BaudRate = baudrate;
+	UART_InitStruct.WordLength = UART_WORDLENGTH_8B;
+	UART_InitStruct.StopBits = UART_STOPBITS_1;
+	UART_InitStruct.Parity = UART_PARITY_NONE;
+	UART_InitStruct.Mode = UART_MODE_TX;
+	UART_InitStruct.HwFlowCtl = UART_HWCONTROL_NONE;
+	UART_InitStruct.OverSampling = UART_OVERSAMPLING_8;
+    
+After we have configure Init structure, we need to initialize the desired UART peripheral. We are going to initialize USART2 with the following code. Desired configuration and UART will be linked with the Handler variable which will be used to send/receive data through UART.
+
+.. code-block:: c
+
+    UART_HandleStruct.Instance = USART2;
+	UART_HandleStruct.Init = UART_InitStruct;
+	HAL_UART_Init(&UART_HandleStruct);
+
+Send byte through UART (Blocking)
+---------------------------------
+
+Following code represents the functions that will send 1 byte through UART interface.
+
+.. code-block:: c
+
+    void putcharUSART2(uint8_t data)
+    {
+        HAL_UART_Transmit(&UART_HandleStruct, & data,1,10000);
+    }
+    
+To transmit data, we use the **HAL_UART_Transmit(arg1,arg2,arg3,arg4)** function, where:
+    * arg1 - Address of the USART Handler variable
+    * arg2 - Address of the data array that we want to send
+    * arg3 - Number of bytes that we want to sedn through USART interface
+    * arg4 - Timeout. If data is not sent in specified amount of time, transmision of data will be aborted.
+    
+Receive byte through UART (Blocking)
+------------------------------------
+Following code represents the funcions which that will receive 1 byte through UART interface.
+
+.. code-block:: c
+
+    uint8_t getcharUSART2(void)
+    {
+        uint8_t data;
+        while(HAL_UART_Receive(&UART_HandleStruct, & data,1,10000));
+        return data;
+    }
+
+To receive data, we use the **HAL_UART_Receive(arg1,arg2,arg3,arg4)** function, where:
+    * arg1 - Address of the USART Handler variable
+    * arg2 - Address of the data array where we will store incoming data
+    * arg3 - Number of bytes that we want to receive through UART interface
+    * arg4 - Timeout. If data is not received in specified amount of time, transmision of data will be aborted.
