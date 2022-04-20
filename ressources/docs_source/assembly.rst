@@ -1,22 +1,22 @@
 .. _assembly-top:
 
-********
+########
 Assembly
-********
+########
 
 Table of content
-################
+****************
 
 ..
     todo: Table of content
 
 Introduction
-############
+************
 
 In this part of the course we will take a look at the ARM assembly intruction set and internal arhitecture of the ARM CPU.
 
 ARM-32 Registers
-################
+****************
 For the purposes of the normal programmer in "User Mode" the ARM has 15 registers. R0-R12 are free for us to do whatever we want, R13 is the Stack Pointer (also addressable as SP), R15 is the Program Counter (PC)
 
 R14 may be surprising to those familiar with other CPUs, when we call a subroutine (With BL - Branch and Link) the return address is not pushed onto the stack, instead it's moved into R14/LR... to return from the subroutine we need to move the R14/LR register into R15/PC.
@@ -107,7 +107,7 @@ where:
         The Greater than or Equal flags 
 
 ARM Instruction set
-###################
+*******************
 
 Syntax
 ======

@@ -5,7 +5,7 @@ STLINK=../../stlink
 PROJ_NAME=main
 
 # Put your STM32F4 library code directory here
-STM_COMMON=../../../STM32F407
+STM_COMMON=../../sdk
 STM32CUBEPROG:= ../../stmcubeprog/bin/STM32_Programmer.sh -vb 1 -q -c port=SWD 
 
 # Put your source files here (or *.c, etc)

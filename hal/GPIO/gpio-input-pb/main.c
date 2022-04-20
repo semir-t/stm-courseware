@@ -25,35 +25,24 @@ int main(void)
 	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 	uint8_t state = 0;
+    uint8_t prev_state = 0;
+    uint8_t tmp = 0;
 	while(1)
 	{
-		if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0) == 1)
+        state = HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0);
+		if(prev_state != state)
 		{
-			if(state == 0)
-			{
-				state = 1;
-			}
-			else
-			{
-				state = 0;
-			}
-			delay_ms_soft(1000);
-
-		}
-		if(state == 1)
-		{
-			HAL_GPIO_WritePin(GPIOD,GPIO_PIN_12,0x01);
-			HAL_GPIO_WritePin(GPIOD,GPIO_PIN_13,0x01);
-			HAL_GPIO_WritePin(GPIOD,GPIO_PIN_14,0x01);
-			HAL_GPIO_WritePin(GPIOD,GPIO_PIN_15,0x01);
-		}
-		else
-		{
-			HAL_GPIO_WritePin(GPIOD,GPIO_PIN_12,0x00);
-			HAL_GPIO_WritePin(GPIOD,GPIO_PIN_13,0x00);
-			HAL_GPIO_WritePin(GPIOD,GPIO_PIN_14,0x00);
-			HAL_GPIO_WritePin(GPIOD,GPIO_PIN_15,0x00);
-		}
+            if((prev_state == 0) && (state == 1))
+            {
+                tmp ^= 0x01;
+                HAL_GPIO_WritePin(GPIOD,GPIO_PIN_12,tmp);
+                HAL_GPIO_WritePin(GPIOD,GPIO_PIN_13,tmp);
+                HAL_GPIO_WritePin(GPIOD,GPIO_PIN_14,tmp);
+                HAL_GPIO_WritePin(GPIOD,GPIO_PIN_15,tmp);
+            }
+            prev_state = state;
+            delay_ms_soft(50);
+        }
 
 	}
 }

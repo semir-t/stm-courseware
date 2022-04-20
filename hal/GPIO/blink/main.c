@@ -10,16 +10,17 @@ int main(void)
 	uint8_t n = 0;
 	///wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 	/// initialize 4 LED's on the board 
-	GPIO_InitTypeDef GPIO_InitStruct;
 	__HAL_RCC_GPIOD_CLK_ENABLE(); //1.
+
+	GPIO_InitTypeDef GPIO_InitStruct;
 	GPIO_InitStruct.Pin = GPIO_PIN_12|GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
+
 	HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 	
 	///wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww 	
-	
 	while(1)
 	{
 		delay_ms_soft(100);

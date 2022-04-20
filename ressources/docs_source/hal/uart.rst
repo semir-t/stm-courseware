@@ -1,9 +1,10 @@
 U(S)ART 
-====
+*******
+
 USART(Universal Synchronous Asynchronous Transmitter Receiver) is the peripheral wich implements the USART/UART protocol. USART is full-duplex communication protocol, which means that it can transfer data in both directions at the same time. 
 
 Physical characteristics
-************************
+========================
 USART protocol defines 3 lines:
     * Tx - Transmit line
     * Rx - Receive line
@@ -19,7 +20,7 @@ USART/UART can have software or hardware flow-control. For this purpose we have 
 
 
 Connection diagram
-******************
+==================
 USART/UART network is point-to-point network, which means that only two devicees can be connected to each other. Connection diagram is shown bellow.
 
 .. image:: images/hal-uart-connection.png
@@ -32,7 +33,7 @@ Same as the Rx and Tx lines are croswise connected, CTS and RTS lines are also c
 
 
 Timing diagram
-**************
+==============
 UART doesn't have synchronization mechanisam, so data on the transmission line is sampled in the middle of the bit interval. Timing diagram is shown on the image bellow:
 
 .. image:: images/hal-uart-timing-diagram.png
@@ -53,7 +54,7 @@ Because UART doesn't have synchronization mechanisam, it is essential that the t
     * 921600
 
 Package Format
-**************
+==============
 USART/UART consists of:
     * Start bit - 1b
     * Data frame - 7b,8b or 9b depending on the aplication
@@ -77,7 +78,7 @@ Stop bit
 To signal the end of the data packet, the sending UART drives the data transmission line from a low voltage to a high voltage for at least two bit durations.
 
 Example
-*******
+=======
 
 Initializing UART
 -----------------
