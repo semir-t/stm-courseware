@@ -1,0 +1,332 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>General Purpose Input/Output (GPIO) &mdash; STM32 Learning Material 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/drawio.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> STM32 Learning Material
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../assembly.html">Assembly</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hal.html">HAL API</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">STM32 Learning Material</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>General Purpose Input/Output (GPIO)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/hal/gpio.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="general-purpose-input-output-gpio">
+<h1>General Purpose Input/Output (GPIO)<a class="headerlink" href="#general-purpose-input-output-gpio" title="Permalink to this headline">¶</a></h1>
+<p>GPIO peripheral represents the interface to interact with external world. This peripheral is used to configure the GPIO pins so that they have desired functionality. Internal block diagram of the GPIO peripheral is shown on the next image.</p>
+<img alt="hal/images/hal-gpio-internal-block-diagram.png" src="hal/images/hal-gpio-internal-block-diagram.png" />
+<dl class="simple">
+<dt>For the desired pin,through the GPIO peripheral we can configure following:</dt><dd><ul class="simple">
+<li><p>Mode option</p></li>
+<li><p>Output type</p></li>
+<li><p>Enable/Disable Pull-Up or Pull-Down</p></li>
+<li><p>Output speed</p></li>
+<li><p>Alternative function of the pin</p></li>
+<li><p>Control/Read state of the pin</p></li>
+</ul>
+</dd>
+</dl>
+<div class="section" id="gpio-mode-of-operation">
+<h2>GPIO mode of operation<a class="headerlink" href="#gpio-mode-of-operation" title="Permalink to this headline">¶</a></h2>
+<dl class="simple">
+<dt>Pin can be configured to work in the following modes:</dt><dd><ul class="simple">
+<li><p>Digital Input</p></li>
+<li><p>Digital Output</p></li>
+<li><p>Alternative function</p></li>
+<li><p>Analog</p></li>
+</ul>
+</dd>
+</dl>
+<div class="section" id="output-type-of-the-gpio">
+<h3>Output type of the GPIO<a class="headerlink" href="#output-type-of-the-gpio" title="Permalink to this headline">¶</a></h3>
+<dl class="simple">
+<dt>Output type of the GPIO can be configured to:</dt><dd><ul class="simple">
+<li><p>Push-Pull configuration</p></li>
+<li><p>Open-Drain configuration</p></li>
+</ul>
+</dd>
+</dl>
+<img alt="hal/images/hal-gpio-output-type.png" src="hal/images/hal-gpio-output-type.png" />
+<p>With the Push-Pull configuration, we can set the state of the output pin to <strong>High</strong> or <strong>Low</strong>. With the Open-Drain confiugration, output pin can be either in state <strong>Low</strong> or <strong>Hi-Zi</strong> (High impedance - Can be interpreted as an open circuit). Open-Drain configuration enables us to drain higher current than the Push-Pull configuration.</p>
+</div>
+<div class="section" id="pull-up-and-pull-down-configuration">
+<h3>Pull-Up and Pull-Down configuration<a class="headerlink" href="#pull-up-and-pull-down-configuration" title="Permalink to this headline">¶</a></h3>
+<dl class="simple">
+<dt>GPIO peripheral integrates internal Pull-Up and Pull-Down resistor. We can have one of the following configuration regarding the pull resistors:</dt><dd><ul class="simple">
+<li><p>Pull-Up and Pull-Down resistor disabled</p></li>
+<li><p>Pull-Up resistor enabled</p></li>
+<li><p>Pull-Down resistor enabled</p></li>
+</ul>
+</dd>
+</dl>
+<img alt="hal/images/hal-gpio-pupdr.png" src="hal/images/hal-gpio-pupdr.png" />
+<p>With the Pull-Up configuration, in the <strong>IDLE</strong> state line will be pulled to state <strong>High</strong>. With the Pull-Down configuration, in the <strong>IDLE</strong> state line wiill be pulled to state <strong>Low</strong>.</p>
+</div>
+<div class="section" id="output-speed-configuration">
+<h3>Output speed configuration<a class="headerlink" href="#output-speed-configuration" title="Permalink to this headline">¶</a></h3>
+<dl class="simple">
+<dt>We can configure output speed for the pin to the one of the following values:</dt><dd><ul class="simple">
+<li><p>Low speed</p></li>
+<li><p>Medium speed</p></li>
+<li><p>Full speed</p></li>
+<li><p>High speed</p></li>
+</ul>
+</dd>
+</dl>
+<p>Speed configuration is related to the speed of the transition of the output signal from the <strong>Low</strong> state to the <strong>High</strong> state and vice-versa.</p>
+</div>
+<div class="section" id="alternative-function-configuration">
+<h3>Alternative function configuration<a class="headerlink" href="#alternative-function-configuration" title="Permalink to this headline">¶</a></h3>
+<p>Every pin has addiotinal alternative functions that it can performe. This information can be found in the datasheed of the used MCU. Example of the datasheed for the STM32F407 can be found in the following image.</p>
+<img alt="hal/images/hal-gpio-af.png" src="hal/images/hal-gpio-af.png" />
+<p>For example, to configure pin <strong>PA2</strong>  as an USART2-TX we will select alternative function 7. For the same pin, if we want to use it as an TIM2-CH3 we need to select alternative function 1.</p>
+</div>
+</div>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<p>Following examples are based on the STM32 HAL API.</p>
+<div class="section" id="configuring-pin-as-output">
+<h3>Configuring pin as output<a class="headerlink" href="#configuring-pin-as-output" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">HAL_RCC_GPIOD_CLK_ENABLE</span><span class="p">();</span><span class="w"></span>
+
+<span class="n">GPIO_InitTypeDef</span><span class="w"> </span><span class="n">GPIO_InitStruct</span><span class="p">;</span><span class="w"></span>
+<span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_PIN_12</span><span class="o">|</span><span class="n">GPIO_PIN_13</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">GPIO_PIN_14</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">GPIO_PIN_15</span><span class="p">;</span><span class="w"></span>
+<span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_MODE_OUTPUT_PP</span><span class="p">;</span><span class="w"></span>
+<span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Pull</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_NOPULL</span><span class="p">;</span><span class="w"></span>
+<span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_SPEED_HIGH</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">HAL_GPIO_Init</span><span class="p">(</span><span class="n">GPIOD</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">GPIO_InitStruct</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>To initialize GPIO peripheral, we need to do following:</dt><dd><ul class="simple">
+<li><p>Enable Clock for GPIO peripheral</p></li>
+<li><p>Configure the GPIO through the instance of the GPIO_InitTypeDef struct</p></li>
+<li><p>Initialize and configure the GPIO by calling the <em>HAL_GIO_Init()</em> function</p></li>
+</ul>
+</dd>
+<dt>To initialize the GPIO pin(s) as output, we need to configure following variables of the struct mentioned above.</dt><dd><ul class="simple">
+<li><p>Pin - By writing data to this variable we select the pin(s) that we want to configure</p></li>
+<li><p>Mode - This variable is used to configure the mode of the pin. Possible values are: (GPIO_MODE_OUTPUT_PP, GPIO_MODE_OUTPUT_OD,GPIO_MODE_INPUT,GPIO_MODE_AF_PP,GPIO_MODE_AF_OD. etc…).</p></li>
+<li><p>Pull - We specify if we want to enable Pull-Up or Pull-Down resistors.</p></li>
+<li><p>Speed - We specify the GPIO pin speed.</p></li>
+</ul>
+</dd>
+</dl>
+<p>After we have desired configuration stored in the instance of the PGIO_InitTypeDef struct, we call the <strong>HAL_GPIO_Init(GPIOD, &amp;GPIO_InitStruct)</strong>. This function will initilize desired pins and configure them per the passed struct. First argument of this function is the GPIO port that we want to initialize, and the second argument is the configuration that we want to set to the desired GPIO port.</p>
+<p>Because this examples are written for the STM32F407 Discovery board, we have selected pind PD12,PD13,PD14,PD15 because this pins have LEDs connected to them.</p>
+</div>
+<div class="section" id="configuring-pin-as-input">
+<h3>Configuring pin as input<a class="headerlink" href="#configuring-pin-as-input" title="Permalink to this headline">¶</a></h3>
+<p>To configure pin as input, we just need to change the Mode variable from the previous code to GPIO_MODE_INPUT.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">HAL_RCC_GPIOA_CLK_ENABLE</span><span class="p">();</span><span class="w"></span>
+
+<span class="n">GPIO_InitTypeDef</span><span class="w"> </span><span class="n">GPIO_InitStruct</span><span class="p">;</span><span class="w"></span>
+<span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_PIN_0</span><span class="p">;</span><span class="w"></span>
+<span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_MODE_INPUT</span><span class="p">;</span><span class="w"></span>
+<span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Pull</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_NOPULL</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">HAL_GPIO_Init</span><span class="p">(</span><span class="n">GPIOA</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">GPIO_InitStruct</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright semir-t.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

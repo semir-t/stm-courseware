@@ -1,0 +1,397 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>U(S)ART &mdash; STM32 Learning Material 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/drawio.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> STM32 Learning Material
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../assembly.html">Assembly</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hal.html">HAL API</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">STM32 Learning Material</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>U(S)ART</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/hal/uart.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="u-s-art">
+<h1>U(S)ART<a class="headerlink" href="#u-s-art" title="Permalink to this headline">¶</a></h1>
+<p>USART(Universal Synchronous Asynchronous Transmitter Receiver) is the peripheral wich implements the USART/UART protocol. USART is full-duplex communication protocol, which means that it can transfer data in both directions at the same time.</p>
+<div class="section" id="physical-characteristics">
+<h2>Physical characteristics<a class="headerlink" href="#physical-characteristics" title="Permalink to this headline">¶</a></h2>
+<dl class="simple">
+<dt>USART protocol defines 3 lines:</dt><dd><ul class="simple">
+<li><p>Tx - Transmit line</p></li>
+<li><p>Rx - Receive line</p></li>
+<li><p>Sck - Synchronization line</p></li>
+</ul>
+</dd>
+<dt>Unlike the USART, UART has only two lines:</dt><dd><ul class="simple">
+<li><p>Tx - Transmit line</p></li>
+<li><p>Rx - Receive line</p></li>
+</ul>
+</dd>
+<dt>USART/UART can have software or hardware flow-control. For this purpose we have two additional lines:</dt><dd><ul class="simple">
+<li><p>CTS - Clear to send</p></li>
+<li><p>RTS - Requst to send</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="connection-diagram">
+<h2>Connection diagram<a class="headerlink" href="#connection-diagram" title="Permalink to this headline">¶</a></h2>
+<p>USART/UART network is point-to-point network, which means that only two devicees can be connected to each other. Connection diagram is shown bellow.</p>
+<img alt="hal/images/hal-uart-connection.png" src="hal/images/hal-uart-connection.png" />
+<p>As we can see, <em>Tx</em> line of first device is connected to the <em>Rx</em> line of the second device. Also, <em>Tx</em> line of second device is connected to <em>Rx</em> line of first device. Additionally, in the case of the USART, <em>Sck</em> line of the first device is connected to the <em>Sck</em> line of the second device.</p>
+<p>Same as the Rx and Tx lines are croswise connected, CTS and RTS lines are also croswise connected as shown on the image bellow:</p>
+<img alt="hal/images/hal-uart-cts-rts.png" src="hal/images/hal-uart-cts-rts.png" />
+</div>
+<div class="section" id="timing-diagram">
+<h2>Timing diagram<a class="headerlink" href="#timing-diagram" title="Permalink to this headline">¶</a></h2>
+<p>UART doesn’t have synchronization mechanisam, so data on the transmission line is sampled in the middle of the bit interval. Timing diagram is shown on the image bellow:</p>
+<img alt="hal/images/hal-uart-timing-diagram.png" src="hal/images/hal-uart-timing-diagram.png" />
+<dl class="simple">
+<dt>Because UART doesn’t have synchronization mechanisam, it is essential that the two devices that communicate using the UART protocl have set the same transfer speed. Also, both device must have stable clock source for this protocol to work. Transfer speeds are standardised and some of them are:</dt><dd><ul class="simple">
+<li><p>300</p></li>
+<li><p>600</p></li>
+<li><p>1200</p></li>
+<li><p>2400</p></li>
+<li><p>4800</p></li>
+<li><p>9600</p></li>
+<li><p>19200</p></li>
+<li><p>38400</p></li>
+<li><p>57600</p></li>
+<li><p>115200</p></li>
+<li><p>230400</p></li>
+<li><p>460800</p></li>
+<li><p>921600</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="package-format">
+<h2>Package Format<a class="headerlink" href="#package-format" title="Permalink to this headline">¶</a></h2>
+<dl class="simple">
+<dt>USART/UART consists of:</dt><dd><ul class="simple">
+<li><p>Start bit - 1b</p></li>
+<li><p>Data frame - 7b,8b or 9b depending on the aplication</p></li>
+<li><p>Parity bit - 1b</p></li>
+<li><p>Stop bit(s) - 1b or 2b</p></li>
+</ul>
+</dd>
+</dl>
+<div class="section" id="start-bit">
+<h3>Start bit<a class="headerlink" href="#start-bit" title="Permalink to this headline">¶</a></h3>
+<p>The UART data transmission line is normally held at a high voltage level when it’s not transmitting data. To start the transfer of data, the transmitting UART pulls the transmission line from high to low for one clock cycle. When the receiving UART detects the high to low voltage transition, it begins reading the bits in the data frame at the frequency of the baud rate.</p>
+</div>
+<div class="section" id="data-frame">
+<h3>Data Frame<a class="headerlink" href="#data-frame" title="Permalink to this headline">¶</a></h3>
+<p>The data frame contains the actual data being transferred. It can be 7 or 8 bits long if a parity bit is used. If no parity bit is used, the data frame can be 9 bits long. In most cases, the data is sent with the least significant bit first.</p>
+</div>
+<div class="section" id="parity-bit">
+<h3>Parity bit<a class="headerlink" href="#parity-bit" title="Permalink to this headline">¶</a></h3>
+<p>Parity describes the evenness or oddness of a number. The parity bit is a way for the receiving UART to tell if any data has changed during transmission. Bits can be changed by electromagnetic radiation, mismatched baud rates, or long distance data transfers. After the receiving UART reads the data frame, it counts the number of bits with a value of 1 and checks if the total is an even or odd number. If the parity bit is a 0 (even parity), the 1 bits in the data frame should total to an even number. If the parity bit is a 1 (odd parity), the 1 bits in the data frame should total to an odd number. When the parity bit matches the data, the UART knows that the transmission was free of errors. But if the parity bit is a 0, and the total is odd; or the parity bit is a 1, and the total is even, the UART knows that bits in the data frame have changed.</p>
+</div>
+<div class="section" id="stop-bit">
+<h3>Stop bit<a class="headerlink" href="#stop-bit" title="Permalink to this headline">¶</a></h3>
+<p>To signal the end of the data packet, the sending UART drives the data transmission line from a low voltage to a high voltage for at least two bit durations.</p>
+</div>
+</div>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="initializing-uart">
+<h3>Initializing UART<a class="headerlink" href="#initializing-uart" title="Permalink to this headline">¶</a></h3>
+<dl class="simple">
+<dt>To initialize UART we need to follow bellow steps:</dt><dd><ul class="simple">
+<li><p>Enable clock for dedicated GPIO</p></li>
+<li><p>Configure GPIO pin(s) as an Alternative function</p></li>
+<li><p>Enable clock for UART</p></li>
+<li><p>Using the UART Init Struct configure the UART</p></li>
+<li><p>Enable the UART with desired configuration</p></li>
+</ul>
+</dd>
+</dl>
+<p>Following code will initialize pin PA2 and PA3 as an alternative function pin. After we have set the mode of the pin to alternative function, we need to then configure desired alternative function. Each pin can have up to 15 alternative functions, and information about alternative funcions for each pin can be found in the datasheet.</p>
+<p>In our case, we want this pin to perform UART funciontionality. From the bellow image we can see that for the pin PA2 we need to select alternative function 7 for this pin to perfome UART functionality.</p>
+<img alt="hal/images/hal-uart-af.png" src="hal/images/hal-uart-af.png" />
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="n">GPIO_InitTypeDef</span><span class="w"> </span><span class="n">GPIO_InitStruct</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">__HAL_RCC_GPIOA_CLK_ENABLE</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_PIN_2</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_MODE_AF_PP</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Pull</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_NOPULL</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_SPEED_FREQ_HIGH</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Alternate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_AF7_USART2</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">HAL_GPIO_Init</span><span class="p">(</span><span class="n">GPIOA</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">GPIO_InitStruct</span><span class="p">);</span><span class="w"></span>
+
+<span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_PIN_3</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_MODE_AF_PP</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Pull</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_NOPULL</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_SPEED_FREQ_HIGH</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Alternate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_AF7_USART2</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">HAL_GPIO_Init</span><span class="p">(</span><span class="n">GPIOA</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">GPIO_InitStruct</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>Next step is to configure UART peripheral. Following configuration is implemented in the bellow code</dt><dd><ul class="simple">
+<li><p>Desired baudrate passed as an argument to a function call</p></li>
+<li><p>8-bit data frame</p></li>
+<li><p>1 stop bit</p></li>
+<li><p>No parity bits.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">UART_InitTypeDef</span><span class="w"> </span><span class="n">UART_InitStruct</span><span class="p">;</span><span class="w"></span>
+<span class="n">__HAL_RCC_USART2_CLK_ENABLE</span><span class="p">();</span><span class="w"></span>
+<span class="n">UART_InitStruct</span><span class="p">.</span><span class="n">BaudRate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">baudrate</span><span class="p">;</span><span class="w"></span>
+<span class="n">UART_InitStruct</span><span class="p">.</span><span class="n">WordLength</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UART_WORDLENGTH_8B</span><span class="p">;</span><span class="w"></span>
+<span class="n">UART_InitStruct</span><span class="p">.</span><span class="n">StopBits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UART_STOPBITS_1</span><span class="p">;</span><span class="w"></span>
+<span class="n">UART_InitStruct</span><span class="p">.</span><span class="n">Parity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UART_PARITY_NONE</span><span class="p">;</span><span class="w"></span>
+<span class="n">UART_InitStruct</span><span class="p">.</span><span class="n">Mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UART_MODE_TX</span><span class="p">;</span><span class="w"></span>
+<span class="n">UART_InitStruct</span><span class="p">.</span><span class="n">HwFlowCtl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UART_HWCONTROL_NONE</span><span class="p">;</span><span class="w"></span>
+<span class="n">UART_InitStruct</span><span class="p">.</span><span class="n">OverSampling</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UART_OVERSAMPLING_8</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>After we have configure Init structure, we need to initialize the desired UART peripheral. We are going to initialize USART2 with the following code. Desired configuration and UART will be linked with the Handler variable which will be used to send/receive data through UART.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">UART_HandleStruct</span><span class="p">.</span><span class="n">Instance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">USART2</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">UART_HandleStruct</span><span class="p">.</span><span class="n">Init</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UART_InitStruct</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">HAL_UART_Init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">UART_HandleStruct</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="send-byte-through-uart-blocking">
+<h3>Send byte through UART (Blocking)<a class="headerlink" href="#send-byte-through-uart-blocking" title="Permalink to this headline">¶</a></h3>
+<p>Following code represents the functions that will send 1 byte through UART interface.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">putcharUSART2</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">HAL_UART_Transmit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">UART_HandleStruct</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">data</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10000</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>To transmit data, we use the <strong>HAL_UART_Transmit(arg1,arg2,arg3,arg4)</strong> function, where:</dt><dd><ul class="simple">
+<li><p>arg1 - Address of the USART Handler variable</p></li>
+<li><p>arg2 - Address of the data array that we want to send</p></li>
+<li><p>arg3 - Number of bytes that we want to sedn through USART interface</p></li>
+<li><p>arg4 - Timeout. If data is not sent in specified amount of time, transmision of data will be aborted.</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="receive-byte-through-uart-blocking">
+<h3>Receive byte through UART (Blocking)<a class="headerlink" href="#receive-byte-through-uart-blocking" title="Permalink to this headline">¶</a></h3>
+<p>Following code represents the funcions which that will receive 1 byte through UART interface.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">getcharUSART2</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">while</span><span class="p">(</span><span class="n">HAL_UART_Receive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">UART_HandleStruct</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">data</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10000</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>To receive data, we use the <strong>HAL_UART_Receive(arg1,arg2,arg3,arg4)</strong> function, where:</dt><dd><ul class="simple">
+<li><p>arg1 - Address of the USART Handler variable</p></li>
+<li><p>arg2 - Address of the data array where we will store incoming data</p></li>
+<li><p>arg3 - Number of bytes that we want to receive through UART interface</p></li>
+<li><p>arg4 - Timeout. If data is not received in specified amount of time, transmision of data will be aborted.</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright semir-t.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

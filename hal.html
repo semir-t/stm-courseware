@@ -1,0 +1,741 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>HAL API &mdash; STM32 Learning Material 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/drawio.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Assembly" href="assembly.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> STM32 Learning Material
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="assembly.html">Assembly</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">HAL API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#general-purpose-input-output-gpio">General Purpose Input/Output (GPIO)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gpio-mode-of-operation">GPIO mode of operation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#output-type-of-the-gpio">Output type of the GPIO</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pull-up-and-pull-down-configuration">Pull-Up and Pull-Down configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#output-speed-configuration">Output speed configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#alternative-function-configuration">Alternative function configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#example">Example</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuring-pin-as-output">Configuring pin as output</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuring-pin-as-input">Configuring pin as input</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#u-s-art">U(S)ART</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#physical-characteristics">Physical characteristics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connection-diagram">Connection diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#timing-diagram">Timing diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#package-format">Package Format</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#start-bit">Start bit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#data-frame">Data Frame</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parity-bit">Parity bit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stop-bit">Stop bit</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Example</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initializing-uart">Initializing UART</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#send-byte-through-uart-blocking">Send byte through UART (Blocking)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#receive-byte-through-uart-blocking">Receive byte through UART (Blocking)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#timers">Timers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#block-diagram">Block diagram</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#clock-selection-and-configuration-block">Clock selection and configuration block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#prescale-and-counter-block">Prescale and Counter block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#output-capture-block">Output capture block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#input-capture-block">Input capture block</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#mode-of-operation">Mode of operation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#timer-mode">Timer Mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#counter-mode">Counter Mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pwm-mode">PWM Mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#advanced-pwm-mode">Advanced PWM Mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#output-compare-mode">Output Compare Mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#one-pulse-mode">One-Pulse Mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#input-capture-mode">Input Capture Mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#encoder-mode">Encoder Mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#timer-gate-mode">Timer Gate Mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#timer-dma-burst-mode">Timer DMA Burst Mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#irtim-infrared-mode">IRTIM Infrared Mode</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">STM32 Learning Material</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>HAL API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/hal.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="hal-api">
+<h1>HAL API<a class="headerlink" href="#hal-api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="general-purpose-input-output-gpio">
+<h2>General Purpose Input/Output (GPIO)<a class="headerlink" href="#general-purpose-input-output-gpio" title="Permalink to this headline">¶</a></h2>
+<p>GPIO peripheral represents the interface to interact with external world. This peripheral is used to configure the GPIO pins so that they have desired functionality. Internal block diagram of the GPIO peripheral is shown on the next image.</p>
+<img alt="_images/hal-gpio-internal-block-diagram.png" src="_images/hal-gpio-internal-block-diagram.png" />
+<dl class="simple">
+<dt>For the desired pin,through the GPIO peripheral we can configure following:</dt><dd><ul class="simple">
+<li><p>Mode option</p></li>
+<li><p>Output type</p></li>
+<li><p>Enable/Disable Pull-Up or Pull-Down</p></li>
+<li><p>Output speed</p></li>
+<li><p>Alternative function of the pin</p></li>
+<li><p>Control/Read state of the pin</p></li>
+</ul>
+</dd>
+</dl>
+<div class="section" id="gpio-mode-of-operation">
+<h3>GPIO mode of operation<a class="headerlink" href="#gpio-mode-of-operation" title="Permalink to this headline">¶</a></h3>
+<dl class="simple">
+<dt>Pin can be configured to work in the following modes:</dt><dd><ul class="simple">
+<li><p>Digital Input</p></li>
+<li><p>Digital Output</p></li>
+<li><p>Alternative function</p></li>
+<li><p>Analog</p></li>
+</ul>
+</dd>
+</dl>
+<div class="section" id="output-type-of-the-gpio">
+<h4>Output type of the GPIO<a class="headerlink" href="#output-type-of-the-gpio" title="Permalink to this headline">¶</a></h4>
+<dl class="simple">
+<dt>Output type of the GPIO can be configured to:</dt><dd><ul class="simple">
+<li><p>Push-Pull configuration</p></li>
+<li><p>Open-Drain configuration</p></li>
+</ul>
+</dd>
+</dl>
+<img alt="_images/hal-gpio-output-type.png" src="_images/hal-gpio-output-type.png" />
+<p>With the Push-Pull configuration, we can set the state of the output pin to <strong>High</strong> or <strong>Low</strong>. With the Open-Drain confiugration, output pin can be either in state <strong>Low</strong> or <strong>Hi-Zi</strong> (High impedance - Can be interpreted as an open circuit). Open-Drain configuration enables us to drain higher current than the Push-Pull configuration.</p>
+</div>
+<div class="section" id="pull-up-and-pull-down-configuration">
+<h4>Pull-Up and Pull-Down configuration<a class="headerlink" href="#pull-up-and-pull-down-configuration" title="Permalink to this headline">¶</a></h4>
+<dl class="simple">
+<dt>GPIO peripheral integrates internal Pull-Up and Pull-Down resistor. We can have one of the following configuration regarding the pull resistors:</dt><dd><ul class="simple">
+<li><p>Pull-Up and Pull-Down resistor disabled</p></li>
+<li><p>Pull-Up resistor enabled</p></li>
+<li><p>Pull-Down resistor enabled</p></li>
+</ul>
+</dd>
+</dl>
+<img alt="_images/hal-gpio-pupdr.png" src="_images/hal-gpio-pupdr.png" />
+<p>With the Pull-Up configuration, in the <strong>IDLE</strong> state line will be pulled to state <strong>High</strong>. With the Pull-Down configuration, in the <strong>IDLE</strong> state line wiill be pulled to state <strong>Low</strong>.</p>
+</div>
+<div class="section" id="output-speed-configuration">
+<h4>Output speed configuration<a class="headerlink" href="#output-speed-configuration" title="Permalink to this headline">¶</a></h4>
+<dl class="simple">
+<dt>We can configure output speed for the pin to the one of the following values:</dt><dd><ul class="simple">
+<li><p>Low speed</p></li>
+<li><p>Medium speed</p></li>
+<li><p>Full speed</p></li>
+<li><p>High speed</p></li>
+</ul>
+</dd>
+</dl>
+<p>Speed configuration is related to the speed of the transition of the output signal from the <strong>Low</strong> state to the <strong>High</strong> state and vice-versa.</p>
+</div>
+<div class="section" id="alternative-function-configuration">
+<h4>Alternative function configuration<a class="headerlink" href="#alternative-function-configuration" title="Permalink to this headline">¶</a></h4>
+<p>Every pin has addiotinal alternative functions that it can performe. This information can be found in the datasheed of the used MCU. Example of the datasheed for the STM32F407 can be found in the following image.</p>
+<img alt="_images/hal-gpio-af.png" src="_images/hal-gpio-af.png" />
+<p>For example, to configure pin <strong>PA2</strong>  as an USART2-TX we will select alternative function 7. For the same pin, if we want to use it as an TIM2-CH3 we need to select alternative function 1.</p>
+</div>
+</div>
+<div class="section" id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<p>Following examples are based on the STM32 HAL API.</p>
+<div class="section" id="configuring-pin-as-output">
+<h4>Configuring pin as output<a class="headerlink" href="#configuring-pin-as-output" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">HAL_RCC_GPIOD_CLK_ENABLE</span><span class="p">();</span><span class="w"></span>
+
+<span class="n">GPIO_InitTypeDef</span><span class="w"> </span><span class="n">GPIO_InitStruct</span><span class="p">;</span><span class="w"></span>
+<span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_PIN_12</span><span class="o">|</span><span class="n">GPIO_PIN_13</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">GPIO_PIN_14</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">GPIO_PIN_15</span><span class="p">;</span><span class="w"></span>
+<span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_MODE_OUTPUT_PP</span><span class="p">;</span><span class="w"></span>
+<span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Pull</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_NOPULL</span><span class="p">;</span><span class="w"></span>
+<span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_SPEED_HIGH</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">HAL_GPIO_Init</span><span class="p">(</span><span class="n">GPIOD</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">GPIO_InitStruct</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>To initialize GPIO peripheral, we need to do following:</dt><dd><ul class="simple">
+<li><p>Enable Clock for GPIO peripheral</p></li>
+<li><p>Configure the GPIO through the instance of the GPIO_InitTypeDef struct</p></li>
+<li><p>Initialize and configure the GPIO by calling the <em>HAL_GIO_Init()</em> function</p></li>
+</ul>
+</dd>
+<dt>To initialize the GPIO pin(s) as output, we need to configure following variables of the struct mentioned above.</dt><dd><ul class="simple">
+<li><p>Pin - By writing data to this variable we select the pin(s) that we want to configure</p></li>
+<li><p>Mode - This variable is used to configure the mode of the pin. Possible values are: (GPIO_MODE_OUTPUT_PP, GPIO_MODE_OUTPUT_OD,GPIO_MODE_INPUT,GPIO_MODE_AF_PP,GPIO_MODE_AF_OD. etc…).</p></li>
+<li><p>Pull - We specify if we want to enable Pull-Up or Pull-Down resistors.</p></li>
+<li><p>Speed - We specify the GPIO pin speed.</p></li>
+</ul>
+</dd>
+</dl>
+<p>After we have desired configuration stored in the instance of the PGIO_InitTypeDef struct, we call the <strong>HAL_GPIO_Init(GPIOD, &amp;GPIO_InitStruct)</strong>. This function will initilize desired pins and configure them per the passed struct. First argument of this function is the GPIO port that we want to initialize, and the second argument is the configuration that we want to set to the desired GPIO port.</p>
+<p>Because this examples are written for the STM32F407 Discovery board, we have selected pind PD12,PD13,PD14,PD15 because this pins have LEDs connected to them.</p>
+</div>
+<div class="section" id="configuring-pin-as-input">
+<h4>Configuring pin as input<a class="headerlink" href="#configuring-pin-as-input" title="Permalink to this headline">¶</a></h4>
+<p>To configure pin as input, we just need to change the Mode variable from the previous code to GPIO_MODE_INPUT.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">HAL_RCC_GPIOA_CLK_ENABLE</span><span class="p">();</span><span class="w"></span>
+
+<span class="n">GPIO_InitTypeDef</span><span class="w"> </span><span class="n">GPIO_InitStruct</span><span class="p">;</span><span class="w"></span>
+<span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_PIN_0</span><span class="p">;</span><span class="w"></span>
+<span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_MODE_INPUT</span><span class="p">;</span><span class="w"></span>
+<span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Pull</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_NOPULL</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">HAL_GPIO_Init</span><span class="p">(</span><span class="n">GPIOA</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">GPIO_InitStruct</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="u-s-art">
+<h2>U(S)ART<a class="headerlink" href="#u-s-art" title="Permalink to this headline">¶</a></h2>
+<p>USART(Universal Synchronous Asynchronous Transmitter Receiver) is the peripheral wich implements the USART/UART protocol. USART is full-duplex communication protocol, which means that it can transfer data in both directions at the same time.</p>
+<div class="section" id="physical-characteristics">
+<h3>Physical characteristics<a class="headerlink" href="#physical-characteristics" title="Permalink to this headline">¶</a></h3>
+<dl class="simple">
+<dt>USART protocol defines 3 lines:</dt><dd><ul class="simple">
+<li><p>Tx - Transmit line</p></li>
+<li><p>Rx - Receive line</p></li>
+<li><p>Sck - Synchronization line</p></li>
+</ul>
+</dd>
+<dt>Unlike the USART, UART has only two lines:</dt><dd><ul class="simple">
+<li><p>Tx - Transmit line</p></li>
+<li><p>Rx - Receive line</p></li>
+</ul>
+</dd>
+<dt>USART/UART can have software or hardware flow-control. For this purpose we have two additional lines:</dt><dd><ul class="simple">
+<li><p>CTS - Clear to send</p></li>
+<li><p>RTS - Requst to send</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="connection-diagram">
+<h3>Connection diagram<a class="headerlink" href="#connection-diagram" title="Permalink to this headline">¶</a></h3>
+<p>USART/UART network is point-to-point network, which means that only two devicees can be connected to each other. Connection diagram is shown bellow.</p>
+<img alt="_images/hal-uart-connection.png" src="_images/hal-uart-connection.png" />
+<p>As we can see, <em>Tx</em> line of first device is connected to the <em>Rx</em> line of the second device. Also, <em>Tx</em> line of second device is connected to <em>Rx</em> line of first device. Additionally, in the case of the USART, <em>Sck</em> line of the first device is connected to the <em>Sck</em> line of the second device.</p>
+<p>Same as the Rx and Tx lines are croswise connected, CTS and RTS lines are also croswise connected as shown on the image bellow:</p>
+<img alt="_images/hal-uart-cts-rts.png" src="_images/hal-uart-cts-rts.png" />
+</div>
+<div class="section" id="timing-diagram">
+<h3>Timing diagram<a class="headerlink" href="#timing-diagram" title="Permalink to this headline">¶</a></h3>
+<p>UART doesn’t have synchronization mechanisam, so data on the transmission line is sampled in the middle of the bit interval. Timing diagram is shown on the image bellow:</p>
+<img alt="_images/hal-uart-timing-diagram.png" src="_images/hal-uart-timing-diagram.png" />
+<dl class="simple">
+<dt>Because UART doesn’t have synchronization mechanisam, it is essential that the two devices that communicate using the UART protocl have set the same transfer speed. Also, both device must have stable clock source for this protocol to work. Transfer speeds are standardised and some of them are:</dt><dd><ul class="simple">
+<li><p>300</p></li>
+<li><p>600</p></li>
+<li><p>1200</p></li>
+<li><p>2400</p></li>
+<li><p>4800</p></li>
+<li><p>9600</p></li>
+<li><p>19200</p></li>
+<li><p>38400</p></li>
+<li><p>57600</p></li>
+<li><p>115200</p></li>
+<li><p>230400</p></li>
+<li><p>460800</p></li>
+<li><p>921600</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="package-format">
+<h3>Package Format<a class="headerlink" href="#package-format" title="Permalink to this headline">¶</a></h3>
+<dl class="simple">
+<dt>USART/UART consists of:</dt><dd><ul class="simple">
+<li><p>Start bit - 1b</p></li>
+<li><p>Data frame - 7b,8b or 9b depending on the aplication</p></li>
+<li><p>Parity bit - 1b</p></li>
+<li><p>Stop bit(s) - 1b or 2b</p></li>
+</ul>
+</dd>
+</dl>
+<div class="section" id="start-bit">
+<h4>Start bit<a class="headerlink" href="#start-bit" title="Permalink to this headline">¶</a></h4>
+<p>The UART data transmission line is normally held at a high voltage level when it’s not transmitting data. To start the transfer of data, the transmitting UART pulls the transmission line from high to low for one clock cycle. When the receiving UART detects the high to low voltage transition, it begins reading the bits in the data frame at the frequency of the baud rate.</p>
+</div>
+<div class="section" id="data-frame">
+<h4>Data Frame<a class="headerlink" href="#data-frame" title="Permalink to this headline">¶</a></h4>
+<p>The data frame contains the actual data being transferred. It can be 7 or 8 bits long if a parity bit is used. If no parity bit is used, the data frame can be 9 bits long. In most cases, the data is sent with the least significant bit first.</p>
+</div>
+<div class="section" id="parity-bit">
+<h4>Parity bit<a class="headerlink" href="#parity-bit" title="Permalink to this headline">¶</a></h4>
+<p>Parity describes the evenness or oddness of a number. The parity bit is a way for the receiving UART to tell if any data has changed during transmission. Bits can be changed by electromagnetic radiation, mismatched baud rates, or long distance data transfers. After the receiving UART reads the data frame, it counts the number of bits with a value of 1 and checks if the total is an even or odd number. If the parity bit is a 0 (even parity), the 1 bits in the data frame should total to an even number. If the parity bit is a 1 (odd parity), the 1 bits in the data frame should total to an odd number. When the parity bit matches the data, the UART knows that the transmission was free of errors. But if the parity bit is a 0, and the total is odd; or the parity bit is a 1, and the total is even, the UART knows that bits in the data frame have changed.</p>
+</div>
+<div class="section" id="stop-bit">
+<h4>Stop bit<a class="headerlink" href="#stop-bit" title="Permalink to this headline">¶</a></h4>
+<p>To signal the end of the data packet, the sending UART drives the data transmission line from a low voltage to a high voltage for at least two bit durations.</p>
+</div>
+</div>
+<div class="section" id="id1">
+<h3>Example<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="initializing-uart">
+<h4>Initializing UART<a class="headerlink" href="#initializing-uart" title="Permalink to this headline">¶</a></h4>
+<dl class="simple">
+<dt>To initialize UART we need to follow bellow steps:</dt><dd><ul class="simple">
+<li><p>Enable clock for dedicated GPIO</p></li>
+<li><p>Configure GPIO pin(s) as an Alternative function</p></li>
+<li><p>Enable clock for UART</p></li>
+<li><p>Using the UART Init Struct configure the UART</p></li>
+<li><p>Enable the UART with desired configuration</p></li>
+</ul>
+</dd>
+</dl>
+<p>Following code will initialize pin PA2 and PA3 as an alternative function pin. After we have set the mode of the pin to alternative function, we need to then configure desired alternative function. Each pin can have up to 15 alternative functions, and information about alternative funcions for each pin can be found in the datasheet.</p>
+<p>In our case, we want this pin to perform UART funciontionality. From the bellow image we can see that for the pin PA2 we need to select alternative function 7 for this pin to perfome UART functionality.</p>
+<img alt="_images/hal-uart-af.png" src="_images/hal-uart-af.png" />
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="n">GPIO_InitTypeDef</span><span class="w"> </span><span class="n">GPIO_InitStruct</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">__HAL_RCC_GPIOA_CLK_ENABLE</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_PIN_2</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_MODE_AF_PP</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Pull</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_NOPULL</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_SPEED_FREQ_HIGH</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Alternate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_AF7_USART2</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">HAL_GPIO_Init</span><span class="p">(</span><span class="n">GPIOA</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">GPIO_InitStruct</span><span class="p">);</span><span class="w"></span>
+
+<span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_PIN_3</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_MODE_AF_PP</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Pull</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_NOPULL</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_SPEED_FREQ_HIGH</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">GPIO_InitStruct</span><span class="p">.</span><span class="n">Alternate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_AF7_USART2</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">HAL_GPIO_Init</span><span class="p">(</span><span class="n">GPIOA</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">GPIO_InitStruct</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>Next step is to configure UART peripheral. Following configuration is implemented in the bellow code</dt><dd><ul class="simple">
+<li><p>Desired baudrate passed as an argument to a function call</p></li>
+<li><p>8-bit data frame</p></li>
+<li><p>1 stop bit</p></li>
+<li><p>No parity bits.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">UART_InitTypeDef</span><span class="w"> </span><span class="n">UART_InitStruct</span><span class="p">;</span><span class="w"></span>
+<span class="n">__HAL_RCC_USART2_CLK_ENABLE</span><span class="p">();</span><span class="w"></span>
+<span class="n">UART_InitStruct</span><span class="p">.</span><span class="n">BaudRate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">baudrate</span><span class="p">;</span><span class="w"></span>
+<span class="n">UART_InitStruct</span><span class="p">.</span><span class="n">WordLength</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UART_WORDLENGTH_8B</span><span class="p">;</span><span class="w"></span>
+<span class="n">UART_InitStruct</span><span class="p">.</span><span class="n">StopBits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UART_STOPBITS_1</span><span class="p">;</span><span class="w"></span>
+<span class="n">UART_InitStruct</span><span class="p">.</span><span class="n">Parity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UART_PARITY_NONE</span><span class="p">;</span><span class="w"></span>
+<span class="n">UART_InitStruct</span><span class="p">.</span><span class="n">Mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UART_MODE_TX</span><span class="p">;</span><span class="w"></span>
+<span class="n">UART_InitStruct</span><span class="p">.</span><span class="n">HwFlowCtl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UART_HWCONTROL_NONE</span><span class="p">;</span><span class="w"></span>
+<span class="n">UART_InitStruct</span><span class="p">.</span><span class="n">OverSampling</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UART_OVERSAMPLING_8</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>After we have configure Init structure, we need to initialize the desired UART peripheral. We are going to initialize USART2 with the following code. Desired configuration and UART will be linked with the Handler variable which will be used to send/receive data through UART.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">UART_HandleStruct</span><span class="p">.</span><span class="n">Instance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">USART2</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">UART_HandleStruct</span><span class="p">.</span><span class="n">Init</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UART_InitStruct</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">HAL_UART_Init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">UART_HandleStruct</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="send-byte-through-uart-blocking">
+<h4>Send byte through UART (Blocking)<a class="headerlink" href="#send-byte-through-uart-blocking" title="Permalink to this headline">¶</a></h4>
+<p>Following code represents the functions that will send 1 byte through UART interface.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">putcharUSART2</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">HAL_UART_Transmit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">UART_HandleStruct</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">data</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10000</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>To transmit data, we use the <strong>HAL_UART_Transmit(arg1,arg2,arg3,arg4)</strong> function, where:</dt><dd><ul class="simple">
+<li><p>arg1 - Address of the USART Handler variable</p></li>
+<li><p>arg2 - Address of the data array that we want to send</p></li>
+<li><p>arg3 - Number of bytes that we want to sedn through USART interface</p></li>
+<li><p>arg4 - Timeout. If data is not sent in specified amount of time, transmision of data will be aborted.</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="receive-byte-through-uart-blocking">
+<h4>Receive byte through UART (Blocking)<a class="headerlink" href="#receive-byte-through-uart-blocking" title="Permalink to this headline">¶</a></h4>
+<p>Following code represents the funcions which that will receive 1 byte through UART interface.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span><span class="w"> </span><span class="nf">getcharUSART2</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">while</span><span class="p">(</span><span class="n">HAL_UART_Receive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">UART_HandleStruct</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">data</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10000</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>To receive data, we use the <strong>HAL_UART_Receive(arg1,arg2,arg3,arg4)</strong> function, where:</dt><dd><ul class="simple">
+<li><p>arg1 - Address of the USART Handler variable</p></li>
+<li><p>arg2 - Address of the data array where we will store incoming data</p></li>
+<li><p>arg3 - Number of bytes that we want to receive through UART interface</p></li>
+<li><p>arg4 - Timeout. If data is not received in specified amount of time, transmision of data will be aborted.</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="timers">
+<h2>Timers<a class="headerlink" href="#timers" title="Permalink to this headline">¶</a></h2>
+<p>A Timer Module in its most basic form is a digital logic circuit that counts up every clock cycle. More functionalities are implemented in hardware to support the timer module so it can count up or down. It can have a Prescaler to divide the input clock frequency by a selectable value. It can also have circuitry for input capture, PWM signal generation, and much more</p>
+<p>The timers in a STM32 micro can be classified as follows:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Advanced Timers</p></li>
+<li><p>General Purpose Timers</p></li>
+<li><p>Basic Timers</p></li>
+<li><p>Low power</p></li>
+</ul>
+</div></blockquote>
+<div class="section" id="block-diagram">
+<h3>Block diagram<a class="headerlink" href="#block-diagram" title="Permalink to this headline">¶</a></h3>
+<p>Following image represents the block diagram of the Advance Timer Peripheral of the STM32F4xx MCU. Internal block structure for different types of Timers and on different MCUs may vary, but the logic behind the timers is always the same.</p>
+<img alt="_images/hal-timer-block-diagram.png" src="_images/hal-timer-block-diagram.png" />
+<dl class="simple">
+<dt>By looking at the previous image, we can divide Timer internal structure to 4 parts:</dt><dd><ul class="simple">
+<li><p>Clock selection and configuration block</p></li>
+<li><p>Prescaler and Counter block</p></li>
+<li><p>Output capture block</p></li>
+<li><p>Input capture block</p></li>
+</ul>
+</dd>
+</dl>
+<div class="section" id="clock-selection-and-configuration-block">
+<h4>Clock selection and configuration block<a class="headerlink" href="#clock-selection-and-configuration-block" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/hal-timer-block-diagram-1.png" src="_images/hal-timer-block-diagram-1.png" />
+<dl class="simple">
+<dt>This subblock is shown on the previous image. We can see that clock source for the timer can be:</dt><dd><ul class="simple">
+<li><p>Internal clock source</p></li>
+<li><p>External trigger (from the external pin)</p></li>
+<li><p>Internal trigger</p></li>
+<li><p>Encoder interface</p></li>
+</ul>
+</dd>
+</dl>
+<p>Selected clock source for the timer can also be forwarded to other peripherals like DAC,ADC and other timer through TRG0 line.</p>
+</div>
+<div class="section" id="prescale-and-counter-block">
+<h4>Prescale and Counter block<a class="headerlink" href="#prescale-and-counter-block" title="Permalink to this headline">¶</a></h4>
+<p>Following image represents the prescaler and counter block.</p>
+<img alt="_images/hal-timer-block-diagram-2.png" src="_images/hal-timer-block-diagram-2.png" />
+<dl class="simple">
+<dt>This block consists of:</dt><dd><ul class="simple">
+<li><p>Prescaler - Used to reduce the frequency of the clock source</p></li>
+<li><p>Counter - Measures number of positiv edges of the clock source</p></li>
+</ul>
+</dd>
+</dl>
+<p>Depending on the timer type, Prescaler value can be arbitraty number or there is a small range of numbers that can be used to divide the clock source. Also, depeding on the timer type, Counter can be 8,16, or 32 bit wide. For STM32F4xx we have 16b and 32b timers.</p>
+</div>
+<div class="section" id="output-capture-block">
+<h4>Output capture block<a class="headerlink" href="#output-capture-block" title="Permalink to this headline">¶</a></h4>
+<dl class="simple">
+<dt>STM32F4xx timer can have up to 6 capture channels. This channels are used to compare the current value of the counter and values stored to the capture channels. When the value of the timer is equal or greater to the value stored inside the capture channel, different actions can be executed. Some of this actions are:</dt><dd><ul class="simple">
+<li><p>Flip the state of the dedicated pin</p></li>
+<li><p>Run the IRQ Handler</p></li>
+<li><p>Start the DMA transaction</p></li>
+</ul>
+</dd>
+</dl>
+<img alt="_images/hal-timer-block-diagram-3.png" src="_images/hal-timer-block-diagram-3.png" />
+<p>This block is often used to generate different square wave signals. Most of the time, we will use this feature to generate the PWM signal.</p>
+</div>
+<div class="section" id="input-capture-block">
+<h4>Input capture block<a class="headerlink" href="#input-capture-block" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/hal-timer-block-diagram-4.png" src="_images/hal-timer-block-diagram-4.png" />
+<p>Input capture block can be used to measure the signal width and frequency. When the transition of the singal on the dedicated pin is detected, current counter value will be stored to the dedicated compare channel. We can then use this information in combination with the frequency of the timers clock to calculate the widht of the signal of frequency.</p>
+</div>
+</div>
+<div class="section" id="mode-of-operation">
+<h3>Mode of operation<a class="headerlink" href="#mode-of-operation" title="Permalink to this headline">¶</a></h3>
+<p>An STM32 timer module can operate in any of the following modes, however, you should not assume that a given timer does support all of these modes. Instead, you’ll have to check the datasheet to figure out which modes are supported by which timers. As we’ve seen earlier, there are many groups of timers which include: General-Purpose, Low-Power, Basic, Advanced-Control timers. Each of which does support a multiple of the following modes, however, some timers do support most of the operating modes.</p>
+<p>In this section, we’ll get just a brief description of each mode of operation. How it works and what sort of applications it fits for. Each mode will be discussed in-depth with practical LAB experiments in future tutorials. But for today, we’ll get into Timer Mode in section4 and do its LAB in the next tutorial. Other modes will be coming later on in this series of tutorials.</p>
+<div class="section" id="timer-mode">
+<h4>Timer Mode<a class="headerlink" href="#timer-mode" title="Permalink to this headline">¶</a></h4>
+<p>In timer mode, the timer module gets clocked from an internal clock source with a known frequency. Hence the clocking frequency is known, the overflow time can also be calculated and controlled by the preload register to get any arbitrarily chosen time interval. Each timer overflow, the timer signals the CPU with an interrupt that indicates the end of the specified time interval.</p>
+<p>This mode of operation is usually used to get a specific operation done each specific time interval. And to achieve timing &amp; sync between various tasks and events in the system. It can also replace delays in various situations for better system response.</p>
+<p>STM32 Timers Explained Tutorial With Modes PWM Encoder</p>
+<img alt="_images/hal-timer-mode.png" src="_images/hal-timer-mode.png" />
+</div>
+<div class="section" id="counter-mode">
+<h4>Counter Mode<a class="headerlink" href="#counter-mode" title="Permalink to this headline">¶</a></h4>
+<p>In counter mode, the timer module gets clocked from an external source (timer input pin). So the timer counts up or down on each rising or falling edge of the external input. This mode is really helpful in numerous situations when you need to implement a digital counter without polling input pins or periodically reading a GPIO or continuously interrupt the CPU if you’ve chosen to hook it up to an EXTI pin.</p>
+<p>You can actually monitor the counter value difference each time interval to tell how many pulses did occur or what was the frequency of it. Such a mode can be advantageous in many situations like this. And more examples are to come in upcoming tutorials.</p>
+<img alt="_images/hal-timer-counter-mode.png" src="_images/hal-timer-counter-mode.png" />
+</div>
+<div class="section" id="pwm-mode">
+<h4>PWM Mode<a class="headerlink" href="#pwm-mode" title="Permalink to this headline">¶</a></h4>
+<p>In PWM mode, the timer module is clocked from an internal clock source and produces a digital waveform on the output channel pin called the PWM signal. By using output compare registers (OCR), the incrementing timer’s register value is constantly compared against this OCR register. When a match occurs the output pin state is flipped until the end of the period and the whole process is repeated.</p>
+<p>The timer in PWM mode will produce a PWM signal at the specified frequency the user chose. The duty cycle is also programmatically controlled by its register. The PWM resolution is affected by the desired FPWM and other factors as we’ll see in the dedicated tutorials for PWM generation.</p>
+<img alt="_images/hal-timer-pwm-fade.gif" src="_images/hal-timer-pwm-fade.gif" />
+</div>
+<div class="section" id="advanced-pwm-mode">
+<h4>Advanced PWM Mode<a class="headerlink" href="#advanced-pwm-mode" title="Permalink to this headline">¶</a></h4>
+<p>The advanced PWM signal generation refers to the hardware ability to control more parameters and add some hardware circuitry to support extra features for the PWM signal generation. Which includes:</p>
+<blockquote>
+<div><p>The ability to produce a complementary PWM signal that is typically the same as the PWM on the main channel but logically inverted (high portion becomes low and vice versa).
+The ability to inject dead-time band in the PWM signal for motor driving applications to prevent shoot-through currents that result from PWM signals overlapping.
+The ability to perform auto-shutdown for the PWM signal, it’s also called “auto brake” which an important feature for safety-critical applications.
+And the ability to phase-adjust the PWM signal, and much more! All of this is referred to as advanced-PWM control.</p>
+</div></blockquote>
+<p>Here is an example for PWM channels with complementary waveform output, with dead-band inserted, and phase-delay adjustment. A typical control signal in half-bridge mode.</p>
+<img alt="_images/hal-timer-advance-pwm.png" src="_images/hal-timer-advance-pwm.png" />
+</div>
+<div class="section" id="output-compare-mode">
+<h4>Output Compare Mode<a class="headerlink" href="#output-compare-mode" title="Permalink to this headline">¶</a></h4>
+<p>In output compare mode, a timer module controls an output waveform or indicates when a period of time has elapsed. When a match is detected between the output compare register (OCR) and the counter, the output compare function assigns the corresponding output pin to a programmable value defined by the output
+compare mode defined by the programmer.</p>
+<p>The output compare pin can be driven high, low, toggles its sate, or stay unchanged. This is determined by the programmer as per the application requirements. This mode of operation can be extremely advantageous for generating timing signals and output driving in many applications as we’ll see in future tutorials.</p>
+<p>Here is an example for a counting timer in output compare mode. Note when the output state is changed (toggled) and the value in the OCR (compare register TIM1_CCR1).</p>
+<img alt="_images/hal-timer-output-compare.png" src="_images/hal-timer-output-compare.png" />
+</div>
+<div class="section" id="one-pulse-mode">
+<h4>One-Pulse Mode<a class="headerlink" href="#one-pulse-mode" title="Permalink to this headline">¶</a></h4>
+<p>One-pulse mode (OPM) is a particular case of the previous modes. It allows the counter to be started in response to a stimulus and to generate a pulse with a programmable length after a programmable delay. Starting the counter can be controlled through the slave mode controller. Generating the waveform can be done in output compare mode or PWM mode.</p>
+<p>A pulse can be correctly generated only if the compare value is different from the counter initial value. Before starting (when the timer is waiting for the trigger), the configuration must be CNT&lt;CCRx ≤ ARR (in particular, 0&lt;CCRx). For example, you may want to generate a positive pulse on OC1 with a length of tPULSE and after a delay of tDELAY as soon as a positive edge is detected on the TI2 input pin.</p>
+<img alt="_images/hal-timer-one-pulse.png" src="_images/hal-timer-one-pulse.png" />
+</div>
+<div class="section" id="input-capture-mode">
+<h4>Input Capture Mode<a class="headerlink" href="#input-capture-mode" title="Permalink to this headline">¶</a></h4>
+<p>In Input capture mode, the Capture/Compare Registers (TIMx_CCRx) are used to latch the value of the counter after a transition detected by the corresponding ICx signal. When a capture occurs, the corresponding CCXIF flag (TIMx_SR register) is set and an interrupt or a DMA request can be sent if they are enabled.</p>
+<p>This mode is extremely important for external signal measurement or external event timing detection. The current value of the timer counts is captured when an external event occurs and an interrupt is fired. So, we can use this feature for a wide range of measurement applications.</p>
+<p>An application example is an ultrasonic sensor that measures the distance and sends the information as a pulse to your microcontroller. By measuring the pulse width time, you can find out the distance reading. This can be achieved by using the input capture unit (ICU) within the timer module.</p>
+</div>
+<div class="section" id="encoder-mode">
+<h4>Encoder Mode<a class="headerlink" href="#encoder-mode" title="Permalink to this headline">¶</a></h4>
+<p>In the encoder interface mode, the timer module operates as a digital counter with two inputs. The counter is clocked by each valid transition on both input pins. The sequence of transitions of the two inputs is evaluated and generates count pulses as well as the direction signal. Depending on the sequence the counter counts up or down. So you don’t have to detect these pulses individually and see which came first to detect rotation direction and this kind of work. Now, all of this is done by hardware thanks to the encoder mode hardware support.</p>
+<p>The timer, when configured in Encoder Interface mode provides information on the sensor’s current position. The user can obtain dynamic information (speed, acceleration, deceleration) by measuring the period between two encoder events using a second timer configured in capture mode. The output of the encoder which indicates the mechanical zero can be used for this purpose. Depending on the time between two events, the counter can also be read at regular times.</p>
+<img alt="_images/hal-timer-encoder.png" src="_images/hal-timer-encoder.png" />
+</div>
+<div class="section" id="timer-gate-mode">
+<h4>Timer Gate Mode<a class="headerlink" href="#timer-gate-mode" title="Permalink to this headline">¶</a></h4>
+<p>In timer gated mode, a timer module is also said to be working in “slave mode”. Where it only counts as long as an external input pin is held high or low. This input pin is said to be the timer gate that allows the timer to count or not at all.</p>
+<p>This mode can be used in a wide range of applications and signal measurements. It can help you measure extremely short pulses with a very high resolution. And also trigger the timer to count on external events from sensors or other MCUs.</p>
+<p>The counter starts counting on the internal clock as long as TI1 is low and stops as soon as TI1 becomes high. The TIF flag in the TIMx_SR register is set both when the counter starts or stops. The delay between the rising edge on TI1 and the actual stop of the counter is due to the resynchronization circuit on TI1 input.
+STM32 Timer Module Gated Mode Hardware - STM32 Timers Explained Tutorial</p>
+<img alt="_images/hal-timer-gate-mode.png" src="_images/hal-timer-gate-mode.png" />
+</div>
+<div class="section" id="timer-dma-burst-mode">
+<h4>Timer DMA Burst Mode<a class="headerlink" href="#timer-dma-burst-mode" title="Permalink to this headline">¶</a></h4>
+<p>The STM32 timers, not all of them, have the capability to generate multiple DMA requests upon a single event. The main purpose is to be able to re-program part of the timer multiple times without software overhead, but it can also be used to read several registers in a row, at regular intervals.</p>
+</div>
+<div class="section" id="irtim-infrared-mode">
+<h4>IRTIM Infrared Mode<a class="headerlink" href="#irtim-infrared-mode" title="Permalink to this headline">¶</a></h4>
+<p>An infrared interface (IRTIM) for remote control can be used with an infrared LED to perform remote control functions. It uses internal connections with TIM15 and TIM16 as shown in the diagram down below. To generate the infrared remote control signals, the IR interface must be enabled and TIM15 channel 1 (TIM15_OC1) and TIM16 channel 1 (TIM16_OC1) must be properly configured to generate correct waveforms. The infrared receiver can be implemented easily through a basic input capture mode.</p>
+<img alt="_images/hal-timer-irtim.png" src="_images/hal-timer-irtim.png" />
+<p>All standard IR pulse modulation modes can be obtained by programming the two-timer output compare channels. TIM15 is used to generate the high-frequency carrier signal, while TIM16 generates the modulation envelope. The infrared function is output on the IR_OUT pin. The activation of this function is done through the GPIOx_AFRx register by enabling the related alternate function bit.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="assembly.html" class="btn btn-neutral float-left" title="Assembly" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright semir-t.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
